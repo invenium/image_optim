@@ -4,6 +4,17 @@
 
 * Add support for Oxipng [#167](https://github.com/toy/image_optim/issues/167) [@oblakeerickson](https://github.com/oblakeerickson)
 
+## v0.30.0 (2021-05-11)
+
+* Add `timeout` option to restrict maximum time spent on every image [#21](https://github.com/toy/image_optim/issues/21) [#148](https://github.com/toy/image_optim/pull/148) [#149](https://github.com/toy/image_optim/pull/149) [#162](https://github.com/toy/image_optim/pull/162) [#184](https://github.com/toy/image_optim/pull/184) [#189](https://github.com/toy/image_optim/pull/189) [@tgxworld](https://github.com/tgxworld) [@oblakeerickson](https://github.com/oblakeerickson) [@toy](https://github.com/toy)
+
+## v0.29.0 (2021-04-28)
+
+* Require at least ruby 1.9.3 [@toy](https://github.com/toy)
+* Add support for use as [pre-commit](https://pre-commit.com/) hook [#192](https://github.com/toy/image_optim/pull/192) [@proinsias](https://github.com/proinsias)
+* Fix `Path#copy_metadata` by rescuing also `Errno::EACCES` as it is done in `fileutils` [#187](https://github.com/toy/image_optim/issues/187) [@toy](https://github.com/toy)
+* More precise regular expression for capturing svgo version [@toy](https://github.com/toy)
+
 ## v0.28.0 (2020-12-18)
 
 * Fix and update list of markers in jpegoptim worker: allow to pass `com` instead of incorrect `comments` and add missing `xmp` and `none` [#188](https://github.com/toy/image_optim/issues/188) [@toy](https://github.com/toy)

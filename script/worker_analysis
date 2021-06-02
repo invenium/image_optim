@@ -358,20 +358,18 @@ class Analyser
     end
 
     def flatten_animation(image)
-      run_cache[:flatten][image.digest] ||= begin
-        if image.image_format == :gif
-          flattened = image.temp_path
-          Cmd.run(*%W[
-            convert
-            #{image.image_format}:#{image}
-            -coalesce
-            -append
-            #{image.image_format}:#{flattened}
-          ]) || fail("failed flattening of #{image}")
-          flattened
-        else
-          image
-        end
+      run_cache[:flatten][image.digest] ||= if image.image_format == :gif
+        flattened = image.temp_path
+        Cmd.run(*%W[
+          convert
+          #{image.image_format}:#{image}
+          -coalesce
+          -append
+          #{image.image_format}:#{flattened}
+        ]) || fail("failed flattening of #{image}")
+        flattened
+      else
+        image
       end
     end
 
@@ -527,10 +525,10 @@ class Analyser
       stats = Stats.new('all', by_format[format], worker_ids2names)
       path = FSPath("#{DIR}/#{basenames[format]}")
       model = {
-        :stats_format => format,
-        :stats => stats,
-        :format_links => basenames,
-        :template_dir => template_path.dirname.relative_path_from(path.dirname),
+        stats_format: format,
+        stats: stats,
+        format_links: basenames,
+        template_dir: template_path.dirname.relative_path_from(path.dirname),
       }
       html = template.result(OpenStruct.new(model).instance_eval{ binding })
       path.write(html)

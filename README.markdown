@@ -60,7 +60,7 @@ With version:
 
 <!---<update-version>-->
 ```ruby
-gem 'image_optim', '~> 0.28'
+gem 'image_optim', '~> 0.30'
 ```
 <!---</update-version>-->
 
@@ -291,6 +291,7 @@ optipng:
 * `:allow_lossy` — Allow lossy workers and optimizations *(defaults to `false`)*
 * `:cache_dir` — Configure cache directory
 * `:cache_worker_digests` - Also cache worker digests along with original file digest and worker options: updating workers invalidates cache
+* `:timeout` — Maximum time in seconds to spend on one image, note multithreading and cache *(defaults to unlimited)*
 
 Worker can be disabled by passing `false` instead of options hash or by setting option `:disable` to `true`.
 
@@ -362,4 +363,4 @@ In separate file [CHANGELOG.markdown](CHANGELOG.markdown).
 
 ## Copyright
 
-Copyright (c) 2012-2020 Ivan Kuchin. See [LICENSE.txt](LICENSE.txt) for details.
+Copyright (c) 2012-2021 Ivan Kuchin. See [LICENSE.txt](LICENSE.txt) for details.

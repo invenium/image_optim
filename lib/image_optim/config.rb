@@ -15,9 +15,7 @@ class ImageOptim
 
     # Global config path at `$XDG_CONFIG_HOME/image_optim.yml` (by default
     # `~/.config/image_optim.yml`)
-    GLOBAL_PATH = begin
-      File.join(ENV['XDG_CONFIG_HOME'] || '~/.config', 'image_optim.yml')
-    end
+    GLOBAL_PATH = File.join(ENV['XDG_CONFIG_HOME'] || '~/.config', 'image_optim.yml')
 
     # Local config path at `./.image_optim.yml`
     LOCAL_PATH = './.image_optim.yml'
@@ -119,6 +117,14 @@ class ImageOptim
       end
     end
 
+    # Timeout in seconds for each image:
+    # * not set by default and for `nil`
+    # * otherwise converted to float
+    def timeout
+      timeout = get!(:timeout)
+      timeout ? timeout.to_f : nil
+    end
+
     # Verbose mode, converted to boolean
     def verbose
       !!get!(:verbose)
@@ -177,7 +183,7 @@ class ImageOptim
       when true, nil
         {}
       when false
-        {:disable => true}
+        {disable: true}
       else
         fail ConfigurationError, "Got #{worker_options.inspect} for "\
             "#{klass.name} options"

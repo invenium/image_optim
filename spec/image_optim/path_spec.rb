@@ -5,8 +5,6 @@ require 'image_optim/path'
 require 'tempfile'
 
 describe ImageOptim::Path do
-  include CapabilityCheckHelpers
-
   before do
     stub_const('Path', ImageOptim::Path)
   end
@@ -76,8 +74,7 @@ describe ImageOptim::Path do
         expect(src).to_not exist
       end
 
-      it 'preserves attributes of destination file' do
-        skip 'full file modes are not support' unless any_file_modes_allowed?
+      it 'preserves attributes of destination file', skip: SkipConditions[:any_file_mode_allowed] do
         mode = 0o666
 
         dst.chmod(mode)
@@ -98,8 +95,7 @@ describe ImageOptim::Path do
         expect(dst.mtime).to be >= time
       end
 
-      it 'changes inode of destination' do
-        skip 'inodes are not supported' unless inodes_supported?
+      it 'changes inode of destination', skip: SkipConditions[:inodes_support] do
         expect{ src.replace(dst) }.to change{ dst.stat.ino }
       end
     end
@@ -120,7 +116,7 @@ describe ImageOptim::Path do
       include_examples 'replaces file'
 
       it 'is using temporary file with .tmp extension' do
-        expect(src).to receive(:move).with(having_attributes(:extname => '.tmp'))
+        expect(src).to receive(:move).with(having_attributes(extname: '.tmp'))
 
         src.replace(dst)
       end
@@ -135,7 +131,7 @@ describe ImageOptim::Path do
       include_examples 'replaces file'
 
       it 'is using temporary file with .tmp extension' do
-        expect(src).to receive(:move).with(having_attributes(:extname => '.tmp'))
+        expect(src).to receive(:move).with(having_attributes(extname: '.tmp'))
 
         src.replace(dst)
       end

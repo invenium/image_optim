@@ -2,11 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name        = 'image_optim'
-  s.version     = '0.28.0'
+  s.version     = '0.30.0'
   s.summary     = %q{Command line tool and ruby interface to optimize (lossless compress, optionally lossy) jpeg, png, gif and svg images using external utilities (advpng, gifsicle, jhead, jpeg-recompress, jpegoptim, jpegrescan, jpegtran, optipng, pngcrush, pngout, pngquant, svgo)}
   s.homepage    = "https://github.com/toy/#{s.name}"
   s.authors     = ['Ivan Kuchin']
   s.license     = 'MIT'
+
+  s.required_ruby_version = '>= 1.9.3'
 
   s.metadata = {
     'bug_tracker_uri'   => "https://github.com/toy/#{s.name}/issues",
@@ -35,5 +37,6 @@ EOF
   s.add_development_dependency 'rspec', '~> 3.0'
   if RUBY_VERSION >= '2.4' && !Gem.win_platform? && !defined?(JRUBY_VERSION)
     s.add_development_dependency 'rubocop', '~> 1.0'
+    s.add_development_dependency 'rubocop-rspec', '~> 2.0'
   end
 end
