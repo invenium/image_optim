@@ -75,12 +75,6 @@ Hash.class_eval do
   end
 end
 
-Process.times.class.class_eval do
-  def sum
-    utime + stime + cutime + cstime
-  end
-end
-
 ImageOptim::Path.class_eval do
   def digest
     @digest ||= Digest::SHA256.file(to_s).hexdigest
@@ -195,9 +189,9 @@ class Analyser
   ]) do
     def self.run(src, worker)
       dst = src.temp_path
-      start = Process.times.sum
+      start = ImageOptim::ElapsedTime.now
       success = worker.optimize(src, dst)
-      time = Process.times.sum - start
+      time = ImageOptim::ElapsedTime.now - start
 
       dst_size = success ? dst.size : nil
       digest = (success ? dst : src).digest
