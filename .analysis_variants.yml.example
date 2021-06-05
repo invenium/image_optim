@@ -1,0 +1,16 @@
+advpng:
+  run_order: 0
+pngcrush:
+  run_order: 0
+pngout:
+  run_order: 0
+pngquant:
+  run_order: 0
+optipng:
+  run_order: 0
+  variants:
+    level: [2, 3, 6, 7]
+oxipng:
+  run_order: 0
+  variants:
+    level: [2, 3, 6]
