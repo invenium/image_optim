@@ -166,7 +166,7 @@ class Analyser
 
     def source_digest
       @source_digest ||= begin
-        source_path = __getobj__.method(:optimize).source_location[0]
+        source_path = __getobj__.class.instance_method(:optimize).source_location[0]
         Digest::SHA256.file(source_path).hexdigest
       end
     end
@@ -179,14 +179,7 @@ class Analyser
   end
 
   # One worker result
-  StepResult = Struct.new(*[
-    :worker_id,
-    :success,
-    :time,
-    :src_size,
-    :dst_size,
-    :cache,
-  ]) do
+  class StepResult < Struct.new(:worker_id, :success, :time, :src_size, :dst_size, :cache)
     def self.run(src, worker)
       dst = src.temp_path
       start = ImageOptim::ElapsedTime.now
@@ -221,11 +214,7 @@ class Analyser
   end
 
   # Chain of workers result
-  ChainResult = Struct.new(*[
-    :format,
-    :steps,
-    :difference,
-  ]) do
+  class ChainResult < Struct.new(:format, :steps, :difference)
     def worker_ids
       steps.map(&:worker_id)
     end
@@ -466,12 +455,10 @@ class Analyser
       @ids2names = ids2names
     end
 
-    def each_chain(&block)
-      chains = results.group_by(&:worker_ids).map do |worker_ids, results|
+    def chains(&block)
+      @chains ||= results.group_by(&:worker_ids).map do |worker_ids, results|
         Chain.new(worker_ids, results, ids2names)
-      end
-      chains.sort_by!{ |chain| [chain.optimized_size, chain.time] }
-      chains.each(&block)
+      end.sort_by{ |chain| [chain.optimized_size, chain.time] }
     end
   end
 
@@ -522,7 +509,7 @@ class Analyser
         stats_format: format,
         stats: stats,
         format_links: basenames,
-        template_dir: template_path.dirname.relative_path_from(path.dirname),
+        template_dir: template_path.dirname,
       }
       html = template.result(OpenStruct.new(model).instance_eval{ binding })
       path.write(html)
